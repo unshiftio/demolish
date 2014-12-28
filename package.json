@@ -1,0 +1,35 @@
+{
+  "name": "demolish",
+  "version": "1.0.0",
+  "description": "Generate a destruction method which clean's up and destroys all references on the instance",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec --ui bdd test.js",
+    "watch": "mocha --watch --reporter spec --ui bdd test.js",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- --reporter spec --ui bdd test.js",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --ui bdd test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unshiftio/demolish"
+  },
+  "keywords": [
+    "destroy",
+    "destruct",
+    "destroyer",
+    "destruction",
+    "demolish"
+  ],
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unshiftio/demolish/issues"
+  },
+  "devDependencies": {
+    "assume": "0.0.x",
+    "istanbul": "0.3.x",
+    "mocha": "2.1.x",
+    "pre-commit": "0.0.x"
+  },
+  "homepage": "https://github.com/unshiftio/demolish"
+}
