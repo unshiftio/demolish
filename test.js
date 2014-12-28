@@ -46,6 +46,17 @@ describe('demolish', function () {
     assume(foo.bar).equals(null);
   });
 
+  it('still allows destruction if prop is falsey', function () {
+    function Foo() {
+      this.bar = 0;
+    }
+
+    Foo.prototype.destroy = demolish('bar');
+
+    var foo = new Foo();
+    assume(foo.destroy()).equals(true);
+  });
+
   it('returns true on first destroy and false on second', function (next) {
     function Foo() {
       this.bar = 1;

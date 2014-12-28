@@ -18,7 +18,7 @@ module.exports = function demolish(keys, options) {
       , i = 0
       , prop;
 
-    if (!selfie[keys[0]]) return false;
+    if (selfie[keys[0]] === null) return false;
 
     for (; i < keys.length; i++) {
       prop = keys[i];

@@ -51,6 +51,10 @@ Once the method is called it will set the `bar` property to `null` and check if
 After everything is cleaned we will emit a `destroy` event if there is an `emit`
 method available.
 
+The `destroy` method will automatically prevent double execution by checking if
+the first supplied property is still active on the prototype. So in the example
+above it will check if `foo` is not `null`.
+
 ## License
 
 MIT
