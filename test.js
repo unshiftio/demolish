@@ -75,4 +75,67 @@ describe('demolish', function () {
 
     assume(foo.destroy()).is.true();
   });
+
+  it('runs additional before hooks', function () {
+    function Foo() {
+      this.bar = 1;
+    }
+
+    Foo.prototype.__proto__ = EventEmitter.prototype;
+    Foo.prototype.destroy = demolish('bar', {
+      before: 'removeAllListeners'
+    });
+
+    var foo = new Foo();
+
+    /* istanbul ignore next */
+    foo.on('destroy', function () {
+      throw new Error('I should neve be called as all events should be removed');
+    });
+
+    assume(foo.listeners('destroy').length).equals(1);
+    assume(foo.destroy()).is.true();
+    assume(foo.listeners('destroy').length).equals(0);
+  });
+
+  it('runs additional after hooks', function (next) {
+    function Foo() {
+      this.bar = 1;
+    }
+
+    Foo.prototype.__proto__ = EventEmitter.prototype;
+    Foo.prototype.destroy = demolish('bar', {
+      after: 'removeAllListeners'
+    });
+
+    var foo = new Foo();
+
+    foo.on('destroy', next);
+
+    assume(foo.listeners('destroy').length).equals(1);
+    assume(foo.destroy()).is.true();
+    assume(foo.listeners('destroy').length).equals(0);
+  });
+
+  it('can execute before / after functions', function (next) {
+    function Foo() {
+      this.bar = 1;
+    }
+
+    Foo.prototype.__proto__ = EventEmitter.prototype;
+    Foo.prototype.destroy = demolish('bar', {
+      after: ['removeAllListeners', function () {
+        assume(this).equals(foo);
+        next();
+      }]
+    });
+
+    var foo = new Foo();
+
+    foo.on('destroy', function () {});
+
+    assume(foo.listeners('destroy').length).equals(1);
+    assume(foo.destroy()).is.true();
+    assume(foo.listeners('destroy').length).equals(0);
+  });
 });
