@@ -1,6 +1,6 @@
 {
   "name": "demolish",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate a destruction method which clean's up and destroys all references on the instance",
   "main": "index.js",
   "scripts": {
