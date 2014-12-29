@@ -55,6 +55,33 @@ The `destroy` method will automatically prevent double execution by checking if
 the first supplied property is still active on the prototype. So in the example
 above it will check if `foo` is not `null`.
 
+But nulling objects and destroying things you've set on an instance might not be
+enough. Sometimes you need a bit more and for those cases we have additional
+`before` and `after` hooks. These hooks can be specified in the options:
+
+```js
+Foo.prototype.destroy = demolish('foo banana', {
+  before: 'clear',
+  after: ['removeAllListeners', function () {
+    // things
+  }]
+});
+```
+
+In the example above you see all the styles we support. If you supply a string
+we assume that it's a function on the prototype that we need to execute in order
+to clean up. If you need to run multiple tasks you can supply an array with
+strings. In addition to strings we also support functions, these functions will
+be called with their `this` value set to the instance to destroy.
+
+So in the example above the execution flow is as following:
+
+1. We check if we are already destroyed, if not, we continue to step 2.
+2. Execution of the before hook.
+3. Iteration over all properties that needs to be destroyed and nulled.
+4. Optional emitting of the `destroy` event.
+5. Execution of the after hook.
+
 ## License
 
 MIT
