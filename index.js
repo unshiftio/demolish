@@ -57,11 +57,10 @@ module.exports = function demolish(keys, options) {
     for (; i < keys.length; i++) {
       prop = keys[i];
 
-      if (selfie[prop] && 'function' === typeof selfie[prop].destroy) {
-        selfie[prop].destroy();
+      if (selfie[prop]) {
+        if ('function' === typeof selfie[prop].destroy) selfie[prop].destroy();
+        selfie[prop] = null;
       }
-
-      selfie[prop] = null;
     }
 
     if (selfie.emit) selfie.emit('destroy');

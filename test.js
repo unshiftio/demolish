@@ -57,6 +57,17 @@ describe('demolish', function () {
     assume(foo.destroy()).equals(true);
   });
 
+  it('doesn\'t add null properties when properties don\'t exist', function () {
+    function Foo() {}
+
+    Foo.prototype.destroy = demolish('bar, baz');
+
+    var foo = new Foo();
+    assume(foo.destroy()).equals(true);
+    assume(foo.bar).equals(undefined);
+    assume(foo.baz).equals(undefined);
+  });
+
   it('returns true on first destroy and false on second', function (next) {
     function Foo() {
       this.bar = 1;
