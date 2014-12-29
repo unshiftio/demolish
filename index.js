@@ -9,7 +9,7 @@
  * @api public
  */
 module.exports = function demolish(keys, options) {
-  var split = /[\,|\s]+/;
+  var split = /[, ]+/;
 
   options = options ||  {};
   keys = keys || [];
