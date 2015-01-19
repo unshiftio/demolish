@@ -46,7 +46,7 @@ describe('demolish', function () {
     assume(foo.bar).equals(null);
   });
 
-  it('still allows destruction if prop is falsey', function () {
+  it('still allows destruction if prop is falsy', function () {
     function Foo() {
       this.bar = 0;
     }
@@ -101,7 +101,31 @@ describe('demolish', function () {
 
     /* istanbul ignore next */
     foo.on('destroy', function () {
-      throw new Error('I should neve be called as all events should be removed');
+      throw new Error('I should never be called as all events should be removed');
+    });
+
+    assume(foo.listeners('destroy').length).equals(1);
+    assume(foo.destroy()).is.true();
+    assume(foo.listeners('destroy').length).equals(0);
+  });
+
+  it('runs before hook if its a function', function () {
+    function Foo() {
+      this.bar = 1;
+    }
+
+    Foo.prototype.__proto__ = EventEmitter.prototype;
+    Foo.prototype.destroy = demolish('bar', {
+      before: function () {
+        this.removeAllListeners();
+      }
+    });
+
+    var foo = new Foo();
+
+    /* istanbul ignore next */
+    foo.on('destroy', function () {
+      throw new Error('I should never be called as all events should be removed');
     });
 
     assume(foo.listeners('destroy').length).equals(1);

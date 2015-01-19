@@ -26,7 +26,7 @@ module.exports = function demolish(keys, options) {
   function run(key, selfie) {
     if (!options[key]) return;
     if ('string' === typeof options[key]) options[key] = options[key].split(split);
-
+    if ('function' === typeof options[key]) return options[key].call(selfie);
 
     for (var i = 0, type, what; i < options[key].length; i++) {
       what = options[key][i];
