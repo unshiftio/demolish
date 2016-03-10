@@ -1,5 +1,3 @@
 coverage/
-.travis.yml
-.npmignore
-.tern-port
 test.js
+.*
